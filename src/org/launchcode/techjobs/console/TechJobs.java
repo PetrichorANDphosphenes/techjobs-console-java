@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+
 /**
  * Created by LaunchCode
  */
@@ -60,8 +61,11 @@ public class TechJobs {
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
 
-                if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                if (searchField.equals("all"))
+                {
+                    printJobs(JobData.findByValue(searchTerm));
+
+
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -110,7 +114,41 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        //check for empty hashmap (
+        if (someJobs.isEmpty()) {
+            System.out.print("This search did not yield results.  Please list the available terms and re-search");
 
-        System.out.println("printJobs is not implemented yet");
+
+        }
+
+        for (HashMap<String, String> job : someJobs) {
+            System.out.print("*****\n"); //for the formatting of printed lists
+            for (String key : job.keySet())
+            {
+
+                System.out.println((key + ": " + job.get(key)));
+                //prints each key value pair
+
+
+            }
+            System.out.println("*****\n");
+        }
+
+
+        /** Our text output should be something like this
+         * *****
+         * position type: Data Scientist / Business Intelligence
+         * name: Sr. IT Analyst (Data/BI)
+         * employer: Bull Moose Industries
+         * location: Saint Louis
+         * core competency: Statistical Analysis
+         * *****
+         *
+         * If
+         *
+         */
+
+        //System.out.println("printJobs is not implemented yet");
     }
+
 }

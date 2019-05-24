@@ -7,9 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -41,7 +39,10 @@ public class JobData {
             if (!values.contains(aValue)) {
                 values.add(aValue);
             }
+
+
         }
+
 
         return values;
     }
@@ -69,15 +70,73 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
+        value = value.toLowerCase();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            aValue = aValue.toLowerCase();
 
-            if (aValue.contains(value)) {
-                jobs.add(row);
+
+                if (aValue.contains(value))
+                {
+
+                    jobs.add(row);
+
+                }
+            }
+        /**
+         *
+         * Unfinished dulplication removal
+        ArrayList<HashMap<String, String>> removeDupes = new ArrayList<>();
+
+        Enumeration<HashMap> e = Collections.enumeration(jobs);
+        while (e.hasMoreElements());
+        {
+            if (!removeDupes.contains(e))
+            {
+                removeDupes.add(e);
+            }
+        }
+         **/
+
+
+        return jobs;
+
+
+
+        }
+
+
+
+
+
+    //find all the jobs
+    public static ArrayList<HashMap<String, String>> findByValue(String value)
+    {
+        loadData(); // load data if not loaded already
+
+        value = value.toLowerCase(); //convert searched value to lowercase before finding
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+
+        for (HashMap<String, String> job : allJobs)
+        {
+
+            for(String key : job.keySet())
+            {
+
+                if (job.get(key).toLowerCase().contains(value)) //find the value in the whole set of data
+                {
+                    //valivate for duplicates
+                    if (!jobs.contains(job.get(key))) {
+                        jobs.add(job);
+                        //break();
+                    }
+                }
             }
         }
 
